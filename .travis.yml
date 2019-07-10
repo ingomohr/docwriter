@@ -2,7 +2,7 @@ language: java
 jdk: openjdk12
 
 install: true
-script: ./mvn install
+script: mvn install
 
 # keep the local mvn repo between 2 runs
 cache:
