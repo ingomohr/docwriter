@@ -25,9 +25,10 @@ import org.docx4j.wml.Text;
  * used to setup placeholder-replacements.
  * </p>
  * 
+ * @param <T> the configuration type.
  * @author Ingo Mohr
  */
-public class RuleBasedDocxWriter extends AbstractDocWriter<RuleBasedDocxWriterCfg> {
+public class RuleBasedDocxWriter<T extends RuleBasedDocxWriterCfg> extends AbstractDocWriter<T> {
 
 	@Override
 	public void write(RuleBasedDocxWriterCfg cfg, InputStream input, OutputStream target) throws DocWriterException {
