@@ -35,7 +35,7 @@ class TestTextReplacementRule {
 
 	@Test
 	void appliesTo_happyDay() {
-		Text text = createTextWithValue(TEXT_TO_REPLACE);
+		Text text = createTextWithValue("$(" + TEXT_TO_REPLACE + ")");
 		assertEquals(true, objUT.appliesTo(text));
 	}
 

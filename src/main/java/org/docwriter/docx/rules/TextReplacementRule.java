@@ -46,7 +46,7 @@ public class TextReplacementRule implements DocumentRule {
 			final Text text = (Text) object;
 
 			final String txtVal = text.getValue();
-			final String expectedTxtVal = getTextToReplace();
+			final String expectedTxtVal = toPlaceholder(getTextToReplace());
 
 			final boolean appliesTo = Objects.equals(expectedTxtVal, txtVal);
 
@@ -57,6 +57,10 @@ public class TextReplacementRule implements DocumentRule {
 
 	/**
 	 * Returns the text to be replaced with the {@link #getValue()} of this rule.
+	 * <p>
+	 * The text in the document is supposed to have the text wrapped as
+	 * <code>$(&lt;textToReplace&gt;)</code>.
+	 * </p>
 	 * 
 	 * @return text to be replaced.
 	 */
@@ -66,6 +70,10 @@ public class TextReplacementRule implements DocumentRule {
 
 	/**
 	 * Sets the text to be replaced with the {@link #getValue()} of this rule.
+	 * <p>
+	 * The text in the document is supposed to have the given text wrapped as
+	 * <code>$(&lt;textToReplace&gt;)</code>.
+	 * </p>
 	 * 
 	 * @param textToReplace the text to be replaced.
 	 */
@@ -89,6 +97,10 @@ public class TextReplacementRule implements DocumentRule {
 	 */
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	private String toPlaceholder(String text) {
+		return "$(" + text + ")";
 	}
 
 }
