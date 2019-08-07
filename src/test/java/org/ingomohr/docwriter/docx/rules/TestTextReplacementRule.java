@@ -1,8 +1,9 @@
-package org.docwriter.docx.rules;
+package org.ingomohr.docwriter.docx.rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.docx4j.wml.Text;
+import org.ingomohr.docwriter.docx.rules.TextReplacementRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

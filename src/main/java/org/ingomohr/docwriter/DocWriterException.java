@@ -1,4 +1,4 @@
-package org.docwriter;
+package org.ingomohr.docwriter;
 
 /**
  * Exception thrown if a {@link DocWriter} cannot write.

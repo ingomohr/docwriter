@@ -1,4 +1,4 @@
-package org.docwriter.docx.rules;
+package org.ingomohr.docwriter.docx.rules;
 
 import java.util.Objects;
 

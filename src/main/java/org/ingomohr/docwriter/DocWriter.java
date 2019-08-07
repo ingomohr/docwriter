@@ -1,4 +1,4 @@
-package org.docwriter;
+package org.ingomohr.docwriter;
 
 import java.io.InputStream;
 import java.io.OutputStream;

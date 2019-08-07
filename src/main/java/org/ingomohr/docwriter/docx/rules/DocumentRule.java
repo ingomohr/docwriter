@@ -1,4 +1,4 @@
-package org.docwriter.docx.rules;
+package org.ingomohr.docwriter.docx.rules;
 
 /**
  * A rule to be applied in order to create or update the contents of a document.

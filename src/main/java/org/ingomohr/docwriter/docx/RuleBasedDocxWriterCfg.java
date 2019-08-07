@@ -1,4 +1,4 @@
-package org.docwriter.docx;
+package org.ingomohr.docwriter.docx;
 
 import static java.util.Objects.requireNonNull;
 
@@ -8,8 +8,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.docwriter.DocWriterCfg;
-import org.docwriter.docx.rules.DocumentRule;
+import org.ingomohr.docwriter.DocWriterCfg;
+import org.ingomohr.docwriter.docx.rules.DocumentRule;
 
 /**
  * A configuration based on a list of rules to be applied in order to

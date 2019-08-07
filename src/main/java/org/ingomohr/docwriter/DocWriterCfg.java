@@ -1,4 +1,4 @@
-package org.docwriter;
+package org.ingomohr.docwriter;
 
 /**
  * A configuration for a {@link DocWriter}.

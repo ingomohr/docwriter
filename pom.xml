@@ -2,8 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>docwriter</groupId>
-	<artifactId>docwriter</artifactId>
+	<groupId>org.ingomohr.docwriter</groupId>
+	<artifactId>org.ingomohr.docwriter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>docwriter</name>
 	<description>writes documents</description>

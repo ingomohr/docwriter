@@ -1,4 +1,4 @@
-package org.docwriter.docx;
+package org.ingomohr.docwriter.docx;
 
 import static java.util.Objects.requireNonNull;
 
@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBElement;
 
-import org.docwriter.AbstractDocWriter;
-import org.docwriter.DocWriter;
-import org.docwriter.DocWriterException;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.wml.ContentAccessor;
 import org.docx4j.wml.Text;
+import org.ingomohr.docwriter.AbstractDocWriter;
+import org.ingomohr.docwriter.DocWriter;
+import org.ingomohr.docwriter.DocWriterException;
 
 /**
  * Rule-based {@link DocWriter} for DOCX files.

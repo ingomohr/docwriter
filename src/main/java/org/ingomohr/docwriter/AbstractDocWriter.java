@@ -1,4 +1,4 @@
-package org.docwriter;
+package org.ingomohr.docwriter;
 
 import static java.util.Objects.requireNonNull;
 
