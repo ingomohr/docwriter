@@ -12,11 +12,13 @@ import javax.xml.bind.JAXBElement;
 
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.ContentAccessor;
 import org.docx4j.wml.Text;
 import org.ingomohr.docwriter.AbstractDocWriter;
 import org.ingomohr.docwriter.DocWriter;
 import org.ingomohr.docwriter.DocWriterException;
+import org.ingomohr.docwriter.docx.rules.DocumentRule;
 
 /**
  * Rule-based {@link DocWriter} for DOCX files.
@@ -42,11 +44,11 @@ public class RuleBasedDocxWriter<T extends RuleBasedDocxWriterCfg> extends Abstr
 
 	private void modify(WordprocessingMLPackage doc, RuleBasedDocxWriterCfg cfg) {
 
-		final var part = doc.getMainDocumentPart();
-		final var texts = getAllElementFromObject(part, Text.class).stream().map(Text.class::cast)
+		final MainDocumentPart part = doc.getMainDocumentPart();
+		final List<Object> texts = getAllElementFromObject(part, Text.class).stream().map(Text.class::cast)
 				.collect(Collectors.toList());
 		texts.stream().forEach(txt -> {
-			final var applyingRules = cfg.getRules().stream().filter(rule -> rule.appliesTo(txt))
+			final List<DocumentRule> applyingRules = cfg.getRules().stream().filter(rule -> rule.appliesTo(txt))
 					.collect(Collectors.toList());
 
 			applyingRules.forEach(applyingRule -> {
