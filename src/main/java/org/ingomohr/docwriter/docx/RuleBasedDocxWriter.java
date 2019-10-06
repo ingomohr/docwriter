@@ -48,14 +48,22 @@ public class RuleBasedDocxWriter<T extends RuleBasedDocxWriterCfg> extends Abstr
 		final List<Object> texts = getAllElementFromObject(part, Text.class).stream().map(Text.class::cast)
 				.collect(Collectors.toList());
 		texts.stream().forEach(txt -> {
-			final List<DocumentRule> applyingRules = cfg.getRules().stream().filter(rule -> rule.appliesTo(txt))
-					.collect(Collectors.toList());
-
-			applyingRules.forEach(applyingRule -> {
-				applyingRule.apply(txt);
-			});
-
+			applyAllMatchingRulesToText(cfg, txt);
 		});
+	}
+
+	private void applyAllMatchingRulesToText(RuleBasedDocxWriterCfg cfg, Object txt) {
+		final List<DocumentRule> applyingRules = getAllMatchingRulesForText(cfg, txt);
+
+		applyingRules.forEach(applyingRule -> {
+			applyingRule.apply(txt);
+		});
+	}
+
+	private List<DocumentRule> getAllMatchingRulesForText(RuleBasedDocxWriterCfg cfg, Object txt) {
+		final List<DocumentRule> applyingRules = cfg.getRules().stream().filter(rule -> rule.appliesTo(txt))
+				.collect(Collectors.toList());
+		return applyingRules;
 	}
 
 	private WordprocessingMLPackage loadIfAvailableOrInit(InputStream input) throws DocWriterException {
