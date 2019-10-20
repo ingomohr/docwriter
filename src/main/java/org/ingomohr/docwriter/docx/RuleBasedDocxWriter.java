@@ -35,14 +35,14 @@ public class RuleBasedDocxWriter<T extends RuleBasedDocxWriterCfg> extends Abstr
 	@Override
 	public void write(RuleBasedDocxWriterCfg cfg, InputStream input, OutputStream target) throws DocWriterException {
 
-		WordprocessingMLPackage doc = loadIfAvailableOrInit(input);
+		WordprocessingMLPackage doc = loadDocumentFromInput(input);
 
-		modify(doc, cfg);
+		modifyDoc(doc, cfg);
 
-		save(target, doc);
+		save(doc, target);
 	}
 
-	private void modify(WordprocessingMLPackage doc, RuleBasedDocxWriterCfg cfg) {
+	private void modifyDoc(WordprocessingMLPackage doc, RuleBasedDocxWriterCfg cfg) {
 
 		final MainDocumentPart part = doc.getMainDocumentPart();
 		final List<Object> texts = getAllElementFromObject(part, Text.class).stream().map(Text.class::cast)
@@ -66,15 +66,22 @@ public class RuleBasedDocxWriter<T extends RuleBasedDocxWriterCfg> extends Abstr
 		return applyingRules;
 	}
 
-	private WordprocessingMLPackage loadIfAvailableOrInit(InputStream input) throws DocWriterException {
+	private WordprocessingMLPackage loadDocumentFromInput(InputStream input) throws DocWriterException {
 		try {
-			return loadFromInputIfAvailable(input);
+			return loadDocumentFromInputIfAvailable(input);
 		} catch (Docx4JException e) {
 			throw new DocWriterException(e);
 		}
 	}
 
-	private void save(OutputStream target, WordprocessingMLPackage doc) throws DocWriterException {
+	private WordprocessingMLPackage loadDocumentFromInputIfAvailable(InputStream input) throws Docx4JException {
+		if (input != null) {
+			return WordprocessingMLPackage.load(input);
+		}
+		return null;
+	}
+
+	private void save(WordprocessingMLPackage doc, OutputStream target) throws DocWriterException {
 		try {
 			doc.save(requireNonNull(target));
 		} catch (Docx4JException e) {
@@ -82,26 +89,24 @@ public class RuleBasedDocxWriter<T extends RuleBasedDocxWriterCfg> extends Abstr
 		}
 	}
 
-	private WordprocessingMLPackage loadFromInputIfAvailable(InputStream input) throws Docx4JException {
-		if (input != null) {
-			return WordprocessingMLPackage.load(input);
-		}
-		return null;
-	}
-
-	public static List<Object> getAllElementFromObject(Object obj, Class<?> toSearch) {
+	public static List<Object> getAllElementFromObject(final Object obj, final Class<?> toSearch) {
 		List<Object> result = new ArrayList<Object>();
-		if (obj instanceof JAXBElement)
-			obj = ((JAXBElement<?>) obj).getValue();
 
-		if (obj.getClass().equals(toSearch))
-			result.add(obj);
-		else if (obj instanceof ContentAccessor) {
-			List<?> children = ((ContentAccessor) obj).getContent();
+		Object object = obj;
+
+		if (object instanceof JAXBElement) {
+			object = ((JAXBElement<?>) object).getValue();
+		}
+
+		if (object.getClass().equals(toSearch)) {
+			result.add(object);
+		} else if (object instanceof ContentAccessor) {
+			List<?> children = ((ContentAccessor) object).getContent();
 			for (Object child : children) {
 				result.addAll(getAllElementFromObject(child, toSearch));
 			}
 		}
+
 		return result;
 	}
 
