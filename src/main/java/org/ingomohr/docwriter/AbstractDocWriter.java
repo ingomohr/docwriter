@@ -12,7 +12,7 @@ import java.nio.file.Path;
  * Base implementation of a {@link DocWriter}. Implements file access.
  * 
  * @param <T> configuration type.
- * @author ingomohr
+ * @author Ingo Mohr
  */
 public abstract class AbstractDocWriter<T extends DocWriterCfg> implements DocWriter<T> {
 
@@ -30,6 +30,14 @@ public abstract class AbstractDocWriter<T extends DocWriterCfg> implements DocWr
 		}
 	}
 
+	/**
+	 * Opens the {@link InputStream} for the given input path.
+	 * 
+	 * @param input the input path to open.
+	 * @return input stream or <code>null</code> if the given path is
+	 *         <code>null</code>.
+	 * @throws IOException if stream cannot be opened from given path.
+	 */
 	protected InputStream openInputIfAvailable(Path input) throws IOException {
 		if (input != null) {
 			return Files.newInputStream(input);
