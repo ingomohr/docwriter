@@ -1,6 +1,7 @@
 package org.ingomohr.docwriter.docx.rules;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import org.docx4j.wml.Text;
 
@@ -8,7 +9,7 @@ import org.docx4j.wml.Text;
  * A rule to replace a certain text in the target document.
  * <p>
  * The text-to-replace is stored in {@link #getTextToReplace()}. The value to
- * set is stored in {@link #getValue()}.
+ * set is stored in {@link #getValueSupplier()}.
  * </p>
  * 
  * @author Ingo Mohr
@@ -17,7 +18,7 @@ public class TextReplacementRule implements DocumentRule {
 
 	private String textToReplace;
 
-	private String value;
+	private Supplier<String> valueSupplier;
 
 	public TextReplacementRule() {
 		this(null, null);
@@ -27,16 +28,19 @@ public class TextReplacementRule implements DocumentRule {
 	 * Creates a new rule.
 	 * 
 	 * @param textToReplace the text to replace.
-	 * @param value         the value to replace the text with.
+	 * @param valueSupplier the value supplier to use to return the value to replace
+	 *                      the text with.
 	 */
-	public TextReplacementRule(String textToReplace, String value) {
+	public TextReplacementRule(String textToReplace, Supplier<String> valueSupplier) {
 		setTextToReplace(textToReplace);
-		setValue(value);
+		setValueSupplier(valueSupplier);
 	}
 
 	@Override
 	public void apply(Object object) {
-		final String newVal = getValue();
+		final Supplier<String> supplier = getValueSupplier();
+
+		final String newVal = supplier != null ? supplier.get() : null;
 		((Text) object).setValue(newVal);
 	}
 
@@ -82,21 +86,21 @@ public class TextReplacementRule implements DocumentRule {
 	}
 
 	/**
-	 * Returns the value that shall replace the {@link #getTextToReplace()}.
+	 * Returns the supplier to return the value to replace the text with.
 	 * 
-	 * @return the value to replace the text with.
+	 * @return value supplier.
 	 */
-	public String getValue() {
-		return value;
+	public Supplier<String> getValueSupplier() {
+		return valueSupplier;
 	}
 
 	/**
-	 * Sets the value that shall replace the {@link #getTextToReplace()}.
+	 * Sets the supplier to return the value to replace the text with.
 	 * 
-	 * @param value the value to replace the text with.
+	 * @param valueSupplier the supplier to set.
 	 */
-	public void setValue(String value) {
-		this.value = value;
+	public void setValueSupplier(Supplier<String> valueSupplier) {
+		this.valueSupplier = valueSupplier;
 	}
 
 	private String toPlaceholder(String text) {
