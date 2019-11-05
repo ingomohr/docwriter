@@ -11,18 +11,17 @@ import java.nio.file.Path;
 /**
  * Base implementation of a {@link DocWriter}. Implements file access.
  * 
- * @param <T> configuration type.
  * @author Ingo Mohr
  */
-public abstract class AbstractDocWriter<T extends DocWriterCfg> implements DocWriter<T> {
+public abstract class AbstractDocWriter implements DocWriter {
 
 	@Override
-	public void write(T cfg, Path input, Path target) throws DocWriterException {
+	public void write(Path input, Path target) throws DocWriterException {
 
 		try (InputStream in = openInputIfAvailable(input)) {
 
 			try (OutputStream out = Files.newOutputStream(requireNonNull(target))) {
-				write(requireNonNull(cfg), in, out);
+				write(in, out);
 			}
 
 		} catch (IOException e) {
