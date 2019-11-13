@@ -59,7 +59,10 @@ public abstract class AbstractRuleBasedDocxWriter extends AbstractDocWriter {
 	 */
 	protected void modifyDoc(WordprocessingMLPackage doc) {
 
+		applyAllMatchingRulesToElement(doc);
+		
 		final MainDocumentPart part = doc.getMainDocumentPart();
+		applyAllMatchingRulesToElement(part);
 
 		final DocxDataInspector inspector = new DocxDataInspector();
 		final List<Object> docElements = inspector.getAllElements(part, Object.class);
