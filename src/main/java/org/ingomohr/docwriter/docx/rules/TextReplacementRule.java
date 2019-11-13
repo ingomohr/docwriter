@@ -44,10 +44,19 @@ public class TextReplacementRule implements DocumentRule {
 
 	@Override
 	public void apply(Object object) {
-		final Supplier<String> supplier = getValueSupplier();
-
-		final String newVal = supplier != null ? supplier.get() : null;
+		String newVal = getNewValue();
 		((Text) object).setValue(newVal);
+	}
+
+	/**
+	 * Resolves the new value from the {@link #getValueSupplier()}.
+	 * 
+	 * @return new value.
+	 */
+	protected String getNewValue() {
+		Supplier<String> supplier = getValueSupplier();
+		String newVal = supplier != null ? supplier.get() : null;
+		return newVal;
 	}
 
 	@Override
