@@ -9,7 +9,7 @@ DocWriter is a Java API to write docx documents...
 - with option to append content as markdown to the document
 
 ### First Example: Hello World
-This is a simple writer to create a docx file that simple says "Hello _World_!".
+This is a simple writer to create a docx file that simply says "Hello _World_!".
 
 ```Java
 import java.nio.file.Path;
