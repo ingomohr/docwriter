@@ -11,7 +11,7 @@ DocWriter is a Java API to write docx documents...
 ### First Example: Hello World
 This is a simple writer to create a docx file that simple says "Hello _World_!".
 
-```
+```Java
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -47,7 +47,7 @@ public class SimpleWriter extends AbstractRuleBasedDocxWriter {
 ### Second Example: Replacing Placeholders
 This example reads a template file and in it replaces all occurrences of ``$(name)``and ``$(lastName)``.
 
-```
+```Java
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
