@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ingomohr</groupId>
 	<artifactId>docwriter</artifactId>
-	<version>1.0.2</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<name>docwriter</name>
 	<description>writes documents</description>
 
@@ -37,7 +37,6 @@
 				<executions>
 					<execution>
 						<id>attach-sources</id>
-						<phase>deploy</phase>
 						<goals>
 							<goal>jar-no-fork</goal>
 						</goals>
