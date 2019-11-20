@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ingomohr.docwriter</groupId>
 	<artifactId>org.ingomohr.docwriter</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>docwriter</name>
 	<description>writes documents</description>
 
@@ -37,8 +37,9 @@
 				<executions>
 					<execution>
 						<id>attach-sources</id>
+						<phase>deploy</phase>
 						<goals>
-							<goal>jar</goal>
+							<goal>jar-no-fork</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -119,5 +120,13 @@
 
 
 	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>ingomohr Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/ingomohr/docwriter</url>
+		</repository>
+	</distributionManagement>
 
 </project>
