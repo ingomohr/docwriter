@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.exceptions.InvalidFormatException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.ingomohr.docwriter.AbstractDocWriter;
@@ -46,6 +47,14 @@ public abstract class AbstractRuleBasedDocxWriter extends AbstractDocWriter {
 
 		WordprocessingMLPackage doc = loadDocumentFromInput(input);
 
+		if (doc == null) {
+			try {
+				doc = WordprocessingMLPackage.createPackage();
+			} catch (InvalidFormatException e) {
+				throw new DocWriterException(e);
+			}
+		}
+
 		modifyDoc(doc);
 
 		save(doc, target);
@@ -60,7 +69,7 @@ public abstract class AbstractRuleBasedDocxWriter extends AbstractDocWriter {
 	protected void modifyDoc(WordprocessingMLPackage doc) {
 
 		applyAllMatchingRulesToElement(doc);
-		
+
 		final MainDocumentPart part = doc.getMainDocumentPart();
 		applyAllMatchingRulesToElement(part);
 
