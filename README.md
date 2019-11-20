@@ -62,8 +62,8 @@ public class PlaceholderReplacingWriter extends AbstractRuleBasedDocxWriter {
 
 	public static void main(String[] args) {
 
-		final Path in = Paths.get("/Users/myusername/Desktop/my-doc-template.docx");
-		final Path out = Paths.get("/Users/myusername/Desktop/my-doc-replaced.docx");
+		Path in = Paths.get("/Users/myusername/Desktop/my-doc-template.docx");
+		Path out = Paths.get("/Users/myusername/Desktop/my-doc-replaced.docx");
 		try {
 			new PlaceholderReplacingWriter().write(in, out);
 		} catch (DocWriterException e) {
