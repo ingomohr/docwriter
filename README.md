@@ -1,14 +1,14 @@
 [![Build Status](https://travis-ci.com/ingomohr/docwriter.svg?branch=master)](https://travis-ci.com/ingomohr/docwriter)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub release](https://img.shields.io/github/release/ingomohr/docwriter.svg)](https://GitHub.com/ingomohr/docwriter/releases/)
-# docwriter
+### Motivation
 DocWriter is a Java API to write docx documents...
 
 - (optionally) based on template files
 - with option to replace placeholders on the document
 - with option to append content as markdown to the document
 
-# First Example: Hello World
+### First Example: Hello World
 This is a simple writer to create a docx file that simple says "Hello _World_!".
 
 ```
@@ -44,7 +44,7 @@ public class SimpleWriter extends AbstractRuleBasedDocxWriter {
 }
 ```
 
-# Second Example: Replacing Placeholders
+### Second Example: Replacing Placeholders
 This example reads a template file and in it replaces all occurrences of ``$(name)``and ``$(lastName)``.
 
 ```
