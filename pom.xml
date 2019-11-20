@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ingomohr.docwriter</groupId>
 	<artifactId>org.ingomohr.docwriter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>docwriter</name>
 	<description>writes documents</description>
 
@@ -31,8 +31,21 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.22.0</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.docx4j/docx4j -->
@@ -92,7 +105,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--  adds markdown support. See Github for repo -->
+		<!-- adds markdown support. See Github for repo -->
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
 			<artifactId>flexmark-all</artifactId>
@@ -103,7 +116,7 @@
 			<artifactId>flexmark-docx-converter</artifactId>
 			<version>0.50.42</version>
 		</dependency>
-    
+
 
 	</dependencies>
 
