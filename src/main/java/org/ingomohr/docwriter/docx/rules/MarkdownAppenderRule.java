@@ -1,6 +1,7 @@
 package org.ingomohr.docwriter.docx.rules;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -42,7 +43,7 @@ public class MarkdownAppenderRule implements DocumentRule {
 		String rawMarkdown = getNewValue();
 
 		MutableDataSet options = new MutableDataSet();
-		options.set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create(), StrikethroughExtension.create()));
+		options.set(Parser.EXTENSIONS, getParserOptions());
 
 		Parser parser = Parser.builder(options).build();
 		DocxRenderer RENDERER = DocxRenderer.builder(options).build();
@@ -50,6 +51,15 @@ public class MarkdownAppenderRule implements DocumentRule {
 		Node document = parser.parse(rawMarkdown);
 
 		RENDERER.render(document, doc);
+	}
+
+	/**
+	 * Returns the options to be used for parsing the markdown content.
+	 * 
+	 * @return markdown parser options.
+	 */
+	protected List<Object> getParserOptions() {
+		return Arrays.asList(TablesExtension.create(), StrikethroughExtension.create());
 	}
 
 	/**
