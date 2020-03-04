@@ -28,6 +28,13 @@ import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
+/**
+ * This example is based on example code in the flexmark repository.
+ * <p>
+ * See
+ * https://github.com/vsch/flexmark-java/blob/master/flexmark-java-samples/src/com/vladsch/flexmark/java/samples/DocxConverterCommonMark.java
+ * </p>
+ */
 public class FlexmarkDocxExample {
 	
 	public static void main(String[] args) {
