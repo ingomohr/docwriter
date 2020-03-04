@@ -69,7 +69,7 @@ public class FlexmarkDocxExample {
         WordprocessingMLPackage template = DocxRenderer.getDefaultTemplate();
         RENDERER.render(document, template);
         
-        File file = new File("/users/ingomohr/Desktop/docwriter-helloworld.docx");
+        File file = new File("/users/ingomohr/Desktop/docwriter-flexmark-example.docx");
         try {
             template.save(file, Docx4J.FLAG_SAVE_ZIP_FILE);
         } catch (Docx4JException e) {
