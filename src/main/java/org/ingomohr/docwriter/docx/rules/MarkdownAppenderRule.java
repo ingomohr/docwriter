@@ -7,9 +7,17 @@ import java.util.function.Supplier;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
 import com.vladsch.flexmark.docx.converter.DocxRenderer;
-import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
+import com.vladsch.flexmark.ext.definition.DefinitionExtension;
+import com.vladsch.flexmark.ext.emoji.EmojiExtension;
+import com.vladsch.flexmark.ext.footnotes.FootnoteExtension;
+import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughSubscriptExtension;
+import com.vladsch.flexmark.ext.ins.InsExtension;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.ext.toc.SimTocExtension;
+import com.vladsch.flexmark.ext.toc.TocExtension;
+import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension;
 import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.superscript.SuperscriptExtension;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
@@ -39,11 +47,11 @@ public class MarkdownAppenderRule implements DocumentRule {
 	public void apply(Object object) {
 
 		WordprocessingMLPackage doc = (WordprocessingMLPackage) object;
+		
 
 		String rawMarkdown = getNewValue();
 
-		MutableDataSet options = new MutableDataSet();
-		options.set(Parser.EXTENSIONS, getParserOptions());
+		MutableDataSet options = createOptions();
 
 		Parser parser = Parser.builder(options).build();
 		DocxRenderer RENDERER = DocxRenderer.builder(options).build();
@@ -54,12 +62,27 @@ public class MarkdownAppenderRule implements DocumentRule {
 	}
 
 	/**
-	 * Returns the options to be used for parsing the markdown content.
+	 * Returns the options to be be applied to the transformation from markdown to
+	 * docx.
+	 * 
+	 * @return options. Never <code>null</code>.
+	 */
+	protected MutableDataSet createOptions() {
+		MutableDataSet options = new MutableDataSet();
+		options.set(Parser.EXTENSIONS, getParserExtensions());
+		options.set(DocxRenderer.SUPPRESS_HTML, true);
+		return options;
+	}
+
+	/**
+	 * Returns the parser extensions to be used for parsing the markdown content.
 	 * 
 	 * @return markdown parser options.
 	 */
-	protected List<Object> getParserOptions() {
-		return Arrays.asList(TablesExtension.create(), StrikethroughExtension.create());
+	protected List<Parser.ParserExtension> getParserExtensions() {
+		return Arrays.asList(DefinitionExtension.create(), EmojiExtension.create(), FootnoteExtension.create(),
+				StrikethroughSubscriptExtension.create(), InsExtension.create(), SuperscriptExtension.create(),
+				TablesExtension.create(), TocExtension.create(), SimTocExtension.create(), WikiLinkExtension.create());
 	}
 
 	/**
