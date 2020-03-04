@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.docx4j.openpackaging.exceptions.Docx4JException;
-import org.docx4j.openpackaging.exceptions.InvalidFormatException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.ingomohr.docwriter.AbstractDocWriter;
@@ -16,6 +15,8 @@ import org.ingomohr.docwriter.DocWriter;
 import org.ingomohr.docwriter.DocWriterException;
 import org.ingomohr.docwriter.docx.rules.DocumentRule;
 import org.ingomohr.docwriter.docx.util.DocxDataInspector;
+
+import com.vladsch.flexmark.docx.converter.DocxRenderer;
 
 /**
  * Rule-based {@link DocWriter} for DOCX files.
@@ -48,16 +49,25 @@ public abstract class AbstractRuleBasedDocxWriter extends AbstractDocWriter {
 		WordprocessingMLPackage doc = loadDocumentFromInput(input);
 
 		if (doc == null) {
-			try {
-				doc = WordprocessingMLPackage.createPackage();
-			} catch (InvalidFormatException e) {
-				throw new DocWriterException(e);
-			}
+			doc = createDefaultDocument();
 		}
 
 		modifyDoc(doc);
 
 		save(doc, target);
+	}
+
+	/**
+	 * Creates the default document to be used to write to.
+	 * <p>
+	 * The default implementation of the writer calls this method if no input
+	 * document was passed to the writer.
+	 * </p>
+	 * 
+	 * @return new default document to write to.
+	 */
+	protected WordprocessingMLPackage createDefaultDocument() {
+		return DocxRenderer.getDefaultTemplate();
 	}
 
 	/**
