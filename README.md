@@ -8,20 +8,34 @@ DocWriter is a Java API to write docx documents...
 - with option to replace placeholders on the document
 - with option to append content as markdown to the document
 
-### First Example: Hello World
-This is a simple writer to create a docx file that simply says "Hello _World_!".
+### Examples
+#### Simple Markdown-to-Doxc Conversion
+This example creates a new docx file containing "Hello **World**!".
+You can use this also for placing tables, code blocks, bullet lists etc.
 
 ```Java
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+SimpleMarkdownDocxWriter writer = new SimpleMarkdownDocxWriter();
+writer.setMarkDownContent("Hello **World**!");
 
-import org.ingomohr.docwriter.DocWriterException;
-import org.ingomohr.docwriter.docx.AbstractRuleBasedDocxWriter;
-import org.ingomohr.docwriter.docx.rules.DocumentRule;
-import org.ingomohr.docwriter.docx.rules.MarkdownAppenderRule;
+Path out = Paths.get("/users/myusername/Desktop/hello-world.docx");
+try {
+	writer.write(null, out);
+} catch (DocWriterException e) {
+	e.printStackTrace();
+}
+```
 
+#### Rule-based Docx Writer
+Sometimes, simple things aren't just good enough. For this, there is a rule-based writer API: ``AbstractRuleBasedDocxWriter``.
+
+This writer is based on the idea of constructing a writer by specifying a number of rules that can apply and perform a certain action.
+
+There are rules built-in for replacing things and for markdown conversion.
+
+##### Markdown-to-Docx Conversion
+This is the "Hello World" example from before, written as rule-based writer.
+
+```Java
 public class SimpleWriter extends AbstractRuleBasedDocxWriter {
 	
 	public static void main(String[] args) {
@@ -38,26 +52,18 @@ public class SimpleWriter extends AbstractRuleBasedDocxWriter {
 
 	@Override
 	protected List<DocumentRule> initRules() {
+		// This is where the rules are specified.
+		// For the conversion, we only need the MarkdownAppenderRule
 		return Arrays.asList(new MarkdownAppenderRule(() -> "Hello _World_!"));
 	}
 
 }
 ```
 
-### Second Example: Replacing Placeholders
+##### Replacing Placeholders
 This example reads a template file and in it replaces all occurrences of ``$(name)``and ``$(lastName)``.
 
 ```Java
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-
-import org.ingomohr.docwriter.DocWriterException;
-import org.ingomohr.docwriter.docx.AbstractRuleBasedDocxWriter;
-import org.ingomohr.docwriter.docx.rules.DocumentRule;
-import org.ingomohr.docwriter.docx.rules.TextReplacementRule;
-
 public class PlaceholderReplacingWriter extends AbstractRuleBasedDocxWriter {
 
 	public static void main(String[] args) {
