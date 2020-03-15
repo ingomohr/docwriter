@@ -31,7 +31,7 @@ public class DocWriterExampleHelloWorld {
 		Path out = Paths.get("/users/ingomohr/Desktop/docwriter-helloworld.docx");
 
 		try {
-			writer.write(null, out);
+			writer.write(out);
 		} catch (DocWriterException e) {
 			e.printStackTrace();
 		}
