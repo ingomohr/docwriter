@@ -20,7 +20,7 @@ public class DocWriterExampleSimpleMarkdownDocx {
 
 		Path out = Paths.get("/users/ingomohr/Desktop/docwriter-test-simpleMarkDownDocxWriter.docx");
 		try {
-			writer.write(null, out);
+			writer.write(out);
 			System.out.println("Done");
 		} catch (DocWriterException e) {
 			e.printStackTrace();

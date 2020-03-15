@@ -41,7 +41,7 @@ public class DocWriterExampleTestMarkdown {
 		};
 
 		try {
-			writer.write(null, out);
+			writer.write(out);
 		} catch (DocWriterException e) {
 			e.printStackTrace();
 		}
