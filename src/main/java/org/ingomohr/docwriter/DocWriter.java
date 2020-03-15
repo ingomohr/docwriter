@@ -29,4 +29,26 @@ public interface DocWriter {
 	 */
 	void write(Path input, Path target) throws DocWriterException;
 
+	/**
+	 * Writes a document.
+	 * 
+	 * @param target the target to write to. Cannot be <code>null</code>.
+	 * @throws DocWriterException if there's a problem writing the document.
+	 * @since 1.2
+	 */
+	default void write(Path target) throws DocWriterException {
+		write(null, target);
+	}
+
+	/**
+	 * Writes a document.
+	 * 
+	 * @param target the target to write to. Cannot be <code>null</code>.
+	 * @throws DocWriterException if there's a problem writing the document.
+	 * @since 1.2
+	 */
+	default void write(OutputStream target) throws DocWriterException {
+		write(null, target);
+	}
+
 }
