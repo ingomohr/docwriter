@@ -1,11 +1,17 @@
 package org.ingomohr.docwriter.docx.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.wml.Body;
 import org.docx4j.wml.ContentAccessor;
+import org.docx4j.wml.Document;
 
 /**
  * Provides access to data in a Docx document.
@@ -46,6 +52,22 @@ public class DocxDataInspector {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Returns all contents from the given document's main part.
+	 * 
+	 * @param document the document. Cannot be <code>null</code>.
+	 * @return all contents from the main part of the given document. Never
+	 *         <code>null</code>, possibly empty.Ï
+	 */
+	public List<Object> getContents(WordprocessingMLPackage document) {
+		MainDocumentPart documentPart = requireNonNull(document).getMainDocumentPart();
+		Document wmlDocumentEl = documentPart.getJaxbElement();
+		Body body = wmlDocumentEl.getBody();
+
+		List<Object> contents = body.getContent();
+		return contents;
 	}
 
 }
