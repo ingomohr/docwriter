@@ -17,7 +17,7 @@ You can use this also for placing tables, code blocks, bullet lists etc.
 SimpleMarkdownDocxWriter writer = new SimpleMarkdownDocxWriter();
 writer.setMarkDownContent("Hello **World**!");
 
-Path out = Paths.get("/users/myusername/Desktop/hello-world.docx");
+Path out = Paths.get(System.getProperty("user.home") + "/Desktop/hello-world.docx");
 try {
 	writer.write(null, out);
 } catch (DocWriterException e) {
