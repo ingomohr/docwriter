@@ -7,6 +7,7 @@ DocWriter is a Java API to write docx documents...
 - (optionally) based on template files
 - with option to replace placeholders on the document
 - with option to append content as markdown to the document
+- with option to insert and to update a table-of-contents (ToC)
 
 ### Examples
 #### Simple Markdown-to-Doxc Conversion
