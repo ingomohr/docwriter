@@ -40,7 +40,7 @@ public class SimpleWriter extends AbstractRuleBasedDocxWriter {
 	
 	public static void main(String[] args) {
 
-		Path out = Paths.get("/Users/myusername/Desktop/my-doc.docx");
+		Path out = Paths.get(System.getProperty("user.home") + "/Desktop/my-doc.docx");
 		try {
 			// We don't want to read a template docx.
 			// So, we just pass null as input
@@ -68,8 +68,8 @@ public class PlaceholderReplacingWriter extends AbstractRuleBasedDocxWriter {
 
 	public static void main(String[] args) {
 
-		Path in = Paths.get("/Users/myusername/Desktop/my-doc-template.docx");
-		Path out = Paths.get("/Users/myusername/Desktop/my-doc-replaced.docx");
+		Path in = Paths.get(System.getProperty("user.home") + "/Desktop/my-doc-template.docx");
+		Path out = Paths.get(System.getProperty("user.home") + "/Desktop/my-doc-replaced.docx");
 		try {
 			new PlaceholderReplacingWriter().write(in, out);
 		} catch (DocWriterException e) {
