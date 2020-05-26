@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,10 +31,32 @@ import com.vladsch.flexmark.docx.converter.DocxRenderer;
  */
 public abstract class AbstractRuleBasedDocxWriter extends AbstractDocWriter {
 
-	private final List<DocumentRule> rules;
+	private List<DocumentRule> rules = new ArrayList<DocumentRule>();
 
 	public AbstractRuleBasedDocxWriter() {
-		this.rules = initRules();
+
+		if (isInitializingAutomatically()) {
+			init();
+		}
+	}
+
+	/**
+	 * Initializes the writer.
+	 * <p>
+	 * By default this is called when the writer is created. Subclasses can override
+	 * {@link #isInitializingAutomatically()} to suppress the automatic call. In
+	 * that case, they have to call the method themselves.
+	 * </p>
+	 * <p>
+	 * The default implementation calls {@link #initRules()} and sets the rules
+	 * returned by that method.
+	 * </p>
+	 * 
+	 * @see #isInitializingAutomatically()
+	 * @since 1.3
+	 */
+	protected void init() {
+		setRules(initRules());
 	}
 
 	/**
@@ -161,6 +184,36 @@ public abstract class AbstractRuleBasedDocxWriter extends AbstractDocWriter {
 	 */
 	protected List<DocumentRule> getRules() {
 		return rules;
+	}
+
+	/**
+	 * Sets the rules to be applied to the document.
+	 * 
+	 * @param rules the rules to set. Cannot be <code>null</code>.
+	 * @since 1.3
+	 */
+	protected void setRules(List<DocumentRule> rules) {
+		requireNonNull(rules);
+		this.rules = rules;
+	}
+
+	/**
+	 * Returns <code>true</code> if {@link #init()} is to be invoked automatically
+	 * at construction time.
+	 * <p>
+	 * If <code>false</code>, subclasses call {@link #init()} themselves.
+	 * </p>
+	 * <p>
+	 * Default is <code>true</code>.
+	 * </p>
+	 * 
+	 * @return <code>true</code> to initialize automatically. <code>false</code>
+	 *         otherwise.
+	 * @see #init()
+	 * @since 1.3
+	 */
+	protected boolean isInitializingAutomatically() {
+		return true;
 	}
 
 }
