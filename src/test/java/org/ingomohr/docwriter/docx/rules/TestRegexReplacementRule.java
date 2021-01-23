@@ -1,57 +1,158 @@
 package org.ingomohr.docwriter.docx.rules;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.function.Supplier;
 
 import org.docx4j.wml.Text;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
+@TestMethodOrder(Alphanumeric.class)
 public class TestRegexReplacementRule {
 
-    private static final String REGEX_TO_REPLACE = "[A-Z]-[0-9]";
-    private static final String VALUE = "hello world";
-    private RegexReplacementRule objUT;
+	private static final String REGEX_CAPITAL_LETTER_MINUS_INT = "[A-Z]-[0-9]";
+	private static final String HELLO_WORLD = "hello world";
 
-    @BeforeEach
-    void setup() {
-        objUT = new RegexReplacementRule();
+	private RegexReplacementRule objUT;
 
-        objUT.setRegexToReplace(REGEX_TO_REPLACE);
-        objUT.setValueSupplier(() -> VALUE);
-    }
+	private boolean appliesToResult;
+	private Text text;
+	private IllegalArgumentException thrownException;
 
-    @Test
-    void appliesTo_wrongObjectType() {
+	@BeforeEach
+	void setup() {
+		objUT = new RegexReplacementRule();
 
-        String wrongObj = "";
-        assertEquals(false, objUT.appliesTo(wrongObj));
-    }
+		appliesToResult = false;
+		thrownException = null;
+	}
 
-    @Test
-    void appliesTo_wrongTextToReplace() {
-        Text text = createTextWithValue("A-A");
-        assertEquals(false, objUT.appliesTo(text));
-    }
+	@Test
+	void appliesTo_WrongObjectType_ReturnsFalse() {
+		givenRegexToReplaceIs(REGEX_CAPITAL_LETTER_MINUS_INT);
+		givenValueSupplierIs(() -> HELLO_WORLD);
+		whenAppliesToIsCalledFor("");
+		thenAppliesToResultIs(false);
+	}
 
-    @Test
-    void appliesTo_happyDay() {
-        Text text = createTextWithValue("A-9");
-        assertEquals(true, objUT.appliesTo(text));
-    }
+	@Test
+	void appliesTo_TextDoesntMatchPattern_ReturnsFalse() {
+		givenRegexToReplaceIs(REGEX_CAPITAL_LETTER_MINUS_INT);
+		givenValueSupplierIs(() -> HELLO_WORLD);
+		Text text = mkText("A-A");
+		whenAppliesToIsCalledFor(text);
+		thenAppliesToResultIs(false);
+	}
 
-    @Test
-    void applyTo() {
-        Text text = createTextWithValue(REGEX_TO_REPLACE);
-        objUT.apply(text);
-        assertEquals(VALUE, text.getValue());
+	@Test
+	void appliesTo_TextPartiallyMatchesPattern_ReturnsFalse() {
+		givenRegexToReplaceIs("[A-Z]-");
+		givenValueSupplierIs(() -> HELLO_WORLD);
+		Text text = mkText("C");
+		whenAppliesToIsCalledFor(text);
+		thenAppliesToResultIs(false);
+	}
 
-    }
+	@Test
+	void appliesTo_TextMatchesPattern_ReturnsTrue() {
+		givenRegexToReplaceIs(REGEX_CAPITAL_LETTER_MINUS_INT);
+		givenValueSupplierIs(() -> HELLO_WORLD);
+		Text text = mkText("A-9");
+		whenAppliesToIsCalledFor(text);
+		thenAppliesToResultIs(true);
+	}
 
-    private Text createTextWithValue(String value) {
-        // Mockito refuses to mock this, so we create a real object
-        Text text = new Text();
-        text.setValue(value);
-        return text;
-    }
+	@Test
+	void applyTo_TextMatchesPattern_ReplacesEntireValue() {
+		givenRegexToReplaceIs(REGEX_CAPITAL_LETTER_MINUS_INT);
+		givenValueSupplierIs(() -> HELLO_WORLD);
+		Text text = mkText("A-9");
+		whenApplyIsCalledFor(text);
+		thenTextValueIs(HELLO_WORLD);
+	}
+
+	@Test
+	void applyTo_RuleDoesntApplyToInput_ReplacesNothingAndThrowsException() {
+		givenRegexToReplaceIs(REGEX_CAPITAL_LETTER_MINUS_INT);
+		givenValueSupplierIs(() -> HELLO_WORLD);
+		Text text = mkText("hello");
+		whenApplyIsCalledFor(text);
+		thenIllegalArgumentExceptionWasThrownFor(text);
+		thenValueWasNotReplaced();
+		thenTextValueIs("hello");
+	}
+
+	private void givenRegexToReplaceIs(String regexToReplace) {
+		objUT.setRegexToReplace(regexToReplace);
+	}
+
+	private void givenValueSupplierIs(Supplier<String> pSupplier) {
+		objUT.setValueSupplier(pSupplier);
+	}
+
+	private void whenAppliesToIsCalledFor(Object object) {
+		appliesToResult = objUT.appliesTo(object);
+	}
+
+	private void whenApplyIsCalledFor(Text text) {
+		try {
+			objUT.apply(text);
+		} catch (IllegalArgumentException ex) {
+			thrownException = ex;
+		}
+	}
+
+	private void thenAppliesToResultIs(boolean expectedResult) {
+		assertEquals(expectedResult, appliesToResult);
+	}
+
+	private void thenTextValueIs(String expectedValue) {
+		assertEquals(expectedValue, text.getValue());
+	}
+
+	private void thenValueWasNotReplaced() {
+		verify(text, never()).setValue(Mockito.anyString());
+	}
+
+	private void thenIllegalArgumentExceptionWasThrownFor(Object object) {
+		assertThat(thrownException.getMessage(), CoreMatchers.containsString(object.toString()));
+	}
+
+	private Text mkText(String value) {
+		text = mock(Text.class);
+		when(text.getValue()).thenReturn(value);
+
+		prepareTextMockToAcceptNewValue(text);
+		return text;
+	}
+
+	private void prepareTextMockToAcceptNewValue(final Text text) {
+		ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+
+		Answer<String> answer = new Answer<String>() {
+
+			@Override
+			public String answer(InvocationOnMock invocation) throws Throwable {
+				when(text.getValue()).thenReturn(captor.getValue());
+				return null;
+			}
+
+		};
+		doAnswer(answer).when(text).setValue(captor.capture());
+	}
 
 }
