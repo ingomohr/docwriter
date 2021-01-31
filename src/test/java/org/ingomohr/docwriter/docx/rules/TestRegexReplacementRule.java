@@ -96,6 +96,15 @@ public class TestRegexReplacementRule {
 		thenTextValueIs("hello");
 	}
 
+	@Test
+	void applyTo_ValueIsRegex_RegexIsReplaced() {
+		givenRegexToReplaceIs("(foo)zar");
+		givenValueSupplierIs(() -> "$1bar");
+		Text text = mkText("foozar");
+		whenApplyIsCalledFor(text);
+		thenTextValueIs("foobar");
+	}
+
 	private void givenRegexToReplaceIs(String regexToReplace) {
 		objUT.setRegexToReplace(regexToReplace);
 	}
