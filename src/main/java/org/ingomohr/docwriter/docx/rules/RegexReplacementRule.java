@@ -12,6 +12,10 @@ import org.docx4j.wml.Text;
  * The regex-to-replace is stored in {@link #getRegexToReplace()}. The value to
  * set is stored in {@link #getValueSupplier()}.
  * </p>
+ * <p>
+ * The value provided by the {@link #getValueSupplier()} is understood as as
+ * regex.
+ * </p>
  * 
  * @author Ingo Mohr
  * @since 1.2
@@ -31,7 +35,8 @@ public class RegexReplacementRule implements DocumentRule {
 	 * 
 	 * @param regexToReplace the regex to replace.
 	 * @param valueSupplier  the value supplier to use to return the value to
-	 *                       replace the regex with.
+	 *                       replace the regex with. The value from the supplier is
+	 *                       understood as regex.
 	 */
 	public RegexReplacementRule(String regexToReplace, Supplier<String> valueSupplier) {
 		setRegexToReplace(regexToReplace);
@@ -75,10 +80,13 @@ public class RegexReplacementRule implements DocumentRule {
 
 		Text text = (Text) object;
 
-		String newVal = getNewValue();
+		String newValueRegex = getNewValue();
 		String oldValue = text.getValue();
-		if (!Objects.equals(newVal, oldValue)) {
-			text.setValue(newVal);
+
+		String resolvedNewValue = Pattern.compile(getRegexToReplace()).matcher(oldValue).replaceAll(newValueRegex);
+
+		if (!Objects.equals(resolvedNewValue, oldValue)) {
+			text.setValue(resolvedNewValue);
 		}
 	}
 
@@ -113,7 +121,7 @@ public class RegexReplacementRule implements DocumentRule {
 
 	/**
 	 * Returns the supplier to return the new value that is supposed to replace the
-	 * regex.
+	 * regex. The value from the supplier is understood as regex.
 	 * 
 	 * @return supplier to return the new value. <code>null</code> if not set.
 	 */
@@ -123,7 +131,7 @@ public class RegexReplacementRule implements DocumentRule {
 
 	/**
 	 * Sets the supplier to return the new value that is supposed to replace the
-	 * regex.
+	 * regex. The value from the supplier is understood as regex.
 	 * 
 	 * @param valueSupplier the supplier to return the new value.
 	 */
