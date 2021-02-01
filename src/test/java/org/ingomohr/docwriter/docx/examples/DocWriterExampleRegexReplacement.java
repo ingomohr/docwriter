@@ -28,8 +28,8 @@ public class DocWriterExampleRegexReplacement {
 
 			@Override
 			protected List<DocumentRule> initRules() {
-				DocumentRule rule1 = new RegexReplacementRule("\\$\\(", () -> "$[");
-				DocumentRule rule2 = new RegexReplacementRule("\\)", () -> "]");
+				DocumentRule rule1 = new RegexReplacementRule("\\$\\(", () -> "\\$\\[");
+				DocumentRule rule2 = new RegexReplacementRule("\\)", () -> "\\]");
 				return Arrays.asList(rule1, rule2);
 			}
 		};
