@@ -17,9 +17,9 @@ import com.vladsch.flexmark.ext.toc.SimTocExtension;
 import com.vladsch.flexmark.ext.toc.TocExtension;
 import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension;
 import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.superscript.SuperscriptExtension;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
+import com.vladsch.flexmark.util.misc.Extension;
 
 /**
  * Appends content given as markdown to the document.
@@ -47,7 +47,6 @@ public class MarkdownAppenderRule implements DocumentRule {
 	public void apply(Object object) {
 
 		WordprocessingMLPackage doc = (WordprocessingMLPackage) object;
-		
 
 		String rawMarkdown = getNewValue();
 
@@ -79,10 +78,10 @@ public class MarkdownAppenderRule implements DocumentRule {
 	 * 
 	 * @return markdown parser options.
 	 */
-	protected List<Parser.ParserExtension> getParserExtensions() {
+	protected List<Extension> getParserExtensions() {
 		return Arrays.asList(DefinitionExtension.create(), EmojiExtension.create(), FootnoteExtension.create(),
-				StrikethroughSubscriptExtension.create(), InsExtension.create(), SuperscriptExtension.create(),
-				TablesExtension.create(), TocExtension.create(), SimTocExtension.create(), WikiLinkExtension.create());
+				StrikethroughSubscriptExtension.create(), InsExtension.create(), TablesExtension.create(),
+				TocExtension.create(), SimTocExtension.create(), WikiLinkExtension.create());
 	}
 
 	/**
