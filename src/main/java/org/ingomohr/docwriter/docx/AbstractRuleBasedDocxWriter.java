@@ -155,7 +155,7 @@ public abstract class AbstractRuleBasedDocxWriter extends AbstractDocWriter {
 		}
 	}
 
-	private WordprocessingMLPackage loadDocumentFromInputIfAvailable(InputStream input) throws Docx4JException {
+	protected WordprocessingMLPackage loadDocumentFromInputIfAvailable(InputStream input) throws Docx4JException {
 		if (input != null) {
 			return WordprocessingMLPackage.load(input);
 		}
