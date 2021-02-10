@@ -132,7 +132,7 @@
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
 			<artifactId>flexmark-docx-converter</artifactId>
-			<version>0.50.42</version>
+			<version>0.62.2</version>
 		</dependency>
 
 
