@@ -23,7 +23,6 @@ import com.vladsch.flexmark.ext.toc.SimTocExtension;
 import com.vladsch.flexmark.ext.toc.TocExtension;
 import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension;
 import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.superscript.SuperscriptExtension;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
@@ -46,7 +45,6 @@ public class FlexmarkDocxExample {
 	                    FootnoteExtension.create(),
 	                    StrikethroughSubscriptExtension.create(),
 	                    InsExtension.create(),
-	                    SuperscriptExtension.create(),
 	                    TablesExtension.create(),
 	                    TocExtension.create(),
 	                    SimTocExtension.create(),
