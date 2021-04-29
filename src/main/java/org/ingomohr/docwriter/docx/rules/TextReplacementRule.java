@@ -6,7 +6,8 @@ import java.util.function.Supplier;
 import org.docx4j.wml.Text;
 
 /**
- * A rule to replace a certain text in the target document.
+ * A rule to replace a certain placeholder text of format "$(text)" in the
+ * target document.
  * <p>
  * The text-to-replace (aka placeholder) is stored in
  * {@link #getTextToReplace()}. The value to set is stored in
