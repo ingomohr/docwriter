@@ -64,8 +64,8 @@
 		<!-- https://mvnrepository.com/artifact/org.docx4j/docx4j -->
 		<dependency>
 			<groupId>org.docx4j</groupId>
-			<artifactId>docx4j</artifactId>
-			<version>6.1.2</version>
+			<artifactId>docx4j-JAXB-ReferenceImpl</artifactId>
+			<version>8.3.4</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
