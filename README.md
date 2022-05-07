@@ -1,6 +1,5 @@
 ![Build](https://github.com/ingomohr/docwriter/actions/workflows/mvn-build-main.yml/badge.svg?branch=master)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GitHub release](https://img.shields.io/github/release/ingomohr/docwriter.svg)](https://GitHub.com/ingomohr/docwriter/releases/)
 ### Motivation
 DocWriter is a Java API to write docx documents...
 
