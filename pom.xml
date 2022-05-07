@@ -6,7 +6,7 @@
 	<artifactId>docwriter</artifactId>
 	<version>3.0.0</version>
 	<name>docwriter</name>
-	<description>writes documents</description>
+	<description>writes docx documents</description>
 
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
