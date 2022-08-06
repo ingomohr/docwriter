@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 
 import org.docx4j.jaxb.Context;
+import org.docx4j.model.datastorage.migration.VariablePrepare;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
@@ -18,7 +20,6 @@ import org.docx4j.wml.STBrType;
 import org.ingomohr.docwriter.docx.rules.MarkdownAppenderRule;
 import org.ingomohr.docwriter.docx.rules.TocInsertionRule;
 import org.ingomohr.docwriter.docx.rules.TocUpdateRule;
-import org.ingomohr.docwriter.docx.util.TextReplacer;
 
 import com.vladsch.flexmark.docx.converter.DocxRenderer;
 
@@ -102,23 +103,39 @@ public class SimpleDocxProcessor {
 	}
 
 	/**
-	 * Replaces all occurrences of the given text with the given replacement.
+	 * Replaces all occurrences of the given variable with the given replacement.
 	 * <p>
-	 * Example: Suppose you work on a docx template that has some placeholder of
-	 * <code>$(doc.id)</code>, you can call<br>
-	 * <code>replaceText("$(doc.id)", "DOC-562342");</code>.
+	 * Example: Suppose you work on a docx template that has some variable of
+	 * <code>${doc.id}</code>, you can call<br>
+	 * <code>replaceVariable("doc.id", "DOC-562342");</code>.
 	 * </p>
 	 * 
-	 * @param text        the text to replace. Cannot be <code>null</code>.
+	 * @param variable    the variable to replace - without the <code>${}</code>
+	 *                    wrapper. Cannot be <code>null</code>.
 	 * @param replacement the replacement to replace the placeholder with. Cannot be
 	 *                    <code>null</code>.
+	 * @throws Docx4JException if replacing fails.
+	 * @since 4.0
 	 */
-	public void replaceText(String text, String replacement) {
-		createTextReplacer().replace(assertedGetDocument(), text, replacement);
-	}
+	public void replaceVariable(String variable, String replacement) throws Docx4JException {
+		WordprocessingMLPackage mainPackage = assertedGetDocument();
 
-	TextReplacer createTextReplacer() {
-		return new TextReplacer();
+		try {
+			VariablePrepare.prepare(mainPackage);
+		} catch (Exception e) {
+			throw new Docx4JException("Cannot tidy up document", e);
+		}
+
+		MainDocumentPart mainDocPart = mainPackage.getMainDocumentPart();
+
+		var mapPlaceholderKeyToVal = new HashMap<String, String>();
+		mapPlaceholderKeyToVal.put(variable, replacement);
+
+		try {
+			mainDocPart.variableReplace(mapPlaceholderKeyToVal);
+		} catch (Exception e) {
+			throw new Docx4JException("Cannot replace placeholder", e);
+		}
 	}
 
 	/**

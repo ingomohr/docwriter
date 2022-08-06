@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -30,7 +29,6 @@ import org.docx4j.wml.Text;
 import org.hamcrest.CoreMatchers;
 import org.ingomohr.docwriter.docx.rules.MarkdownAppenderRule;
 import org.ingomohr.docwriter.docx.util.DocxDataInspector;
-import org.ingomohr.docwriter.docx.util.TextReplacer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -150,37 +148,16 @@ class TestSimpleDocxProcessor {
 	}
 
 	@Test
-	void replaceText_TextReplacerWasCalled() {
-
-		TextReplacer replacer = mock(TextReplacer.class);
-		WordprocessingMLPackage doc = mock(WordprocessingMLPackage.class);
-
-		objUT = new SimpleDocxProcessor() {
-
-			@Override
-			protected TextReplacer createTextReplacer() {
-				return replacer;
-			}
-		};
-		objUT.setDocument(doc);
-
-		objUT.replaceText("a", "b");
-
-		verify(replacer).replace(doc, "a", "b");
-		verifyNoMoreInteractions(replacer);
-	}
-
-	@Test
-	void replaceText_TextWasReplaced() {
+	void replaceVariable_AllOccurrencesOfVariableAreReplaced() throws Exception {
 		objUT.createDocument();
 
-		objUT.addHeadlineH1("Dear $(name)!");
-		objUT.addMarkdown("My dear $(name), $(name, this is a nice day, isn't it?");
+		objUT.addHeadlineH1("Dear ${name}!");
+		objUT.addMarkdown("My dear ${name}, ${name}, this is a nice day, isn't it?");
 
-		objUT.replaceText("$(name)", "Sir John");
+		objUT.replaceVariable("name", "Sir John");
 
 		assertContainsTextElementInMainPart(objUT, "Dear Sir John!");
-		assertContainsTextElementInMainPart(objUT, "My dear Sir John, $(name, this is a nice day, isn't it?");
+		assertContainsTextElementInMainPart(objUT, "My dear Sir John, Sir John, this is a nice day, isn't it?");
 	}
 
 	@Test
