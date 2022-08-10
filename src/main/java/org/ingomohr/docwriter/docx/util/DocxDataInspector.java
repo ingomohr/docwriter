@@ -3,14 +3,14 @@ package org.ingomohr.docwriter.docx.util;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-
+import org.docx4j.TraversalUtil;
+import org.docx4j.finders.ClassFinder;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.Body;
-import org.docx4j.wml.ContentAccessor;
 import org.docx4j.wml.Document;
 
 /**
@@ -32,25 +32,20 @@ public class DocxDataInspector {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> List<T> getAllElements(final Object startingObj, final Class<T> type) {
-		final List<T> result = new ArrayList<>();
 
-		Object object = startingObj;
+		requireNonNull(startingObj);
+		requireNonNull(type);
 
-		if (object instanceof JAXBElement) {
-			object = ((JAXBElement<?>) object).getValue();
+		List<T> result = new ArrayList<>();
+
+		if (type.isAssignableFrom(startingObj.getClass())) {
+			result.add((T) startingObj);
 		}
 
-		if (type.isAssignableFrom(object.getClass())) {
-			result.add((T) object);
-		}
+		ClassFinder classfinder = new ClassFinder(type);
+		TraversalUtil.visit(startingObj, classfinder);
 
-		if (object instanceof ContentAccessor) {
-			List<?> children = ((ContentAccessor) object).getContent();
-			for (Object child : children) {
-				result.addAll(getAllElements(child, type));
-			}
-		}
-
+		result.addAll((Collection<? extends T>) classfinder.results);
 		return result;
 	}
 
