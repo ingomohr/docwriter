@@ -11,6 +11,8 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 
 import org.docx4j.wml.ContentAccessor;
+import org.docx4j.wml.SdtContent;
+import org.docx4j.wml.SdtElement;
 import org.docx4j.wml.Text;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +46,23 @@ class TestDocxDataInspector {
 		List<Text> result = objUT.getAllElements(text, Text.class);
 		assertEquals(1, result.size());
 		assertThat(result, CoreMatchers.hasItem(text));
+	}
+
+	@Test
+	void getAllElements_SdtElement() {
+
+		SdtContent parent = mock(SdtContent.class);
+
+		SdtElement sdtElmt = mock(SdtElement.class);
+		SdtContent sdtContent = mock(SdtContent.class);
+		when(sdtElmt.getSdtContent()).thenReturn(sdtContent);
+
+		Text text = mock(Text.class);
+		when(sdtContent.getContent()).thenReturn(Arrays.asList(text));
+
+		when(parent.getContent()).thenReturn(Arrays.asList(sdtElmt));
+
+		assertThat(objUT.getAllElements(parent, Text.class), CoreMatchers.hasItems(text));
 	}
 
 	@Test
