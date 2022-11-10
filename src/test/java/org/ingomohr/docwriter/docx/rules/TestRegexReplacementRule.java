@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 import org.docx4j.wml.Text;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer.MethodName;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.ArgumentCaptor;
@@ -21,7 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-@TestMethodOrder(MethodName.class)
+@TestMethodOrder(Alphanumeric.class)
 public class TestRegexReplacementRule {
 
 	private static final String REGEX_CAPITAL_LETTER_MINUS_INT = "[A-Z]-[0-9]";
