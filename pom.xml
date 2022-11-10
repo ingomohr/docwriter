@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ingomohr</groupId>
 	<artifactId>docwriter</artifactId>
-	<version>4.0.0</version>
+	<version>5.0.0</version>
 	<name>docwriter</name>
 	<description>writes docx documents</description>
 
@@ -86,12 +86,12 @@
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
 			<artifactId>flexmark-all</artifactId>
-			<version>0.64.0</version>
+			<version>0.50.50</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
 			<artifactId>flexmark-docx-converter</artifactId>
-			<version>0.64.0</version>
+			<version>0.50.50</version>
 		</dependency>
 
 
