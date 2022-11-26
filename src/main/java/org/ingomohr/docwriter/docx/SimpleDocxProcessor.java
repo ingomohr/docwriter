@@ -128,7 +128,7 @@ public class SimpleDocxProcessor {
 
 		MainDocumentPart mainDocPart = mainPackage.getMainDocumentPart();
 
-		var mapPlaceholderKeyToVal = new HashMap<String, String>();
+		HashMap<String, String> mapPlaceholderKeyToVal = new HashMap<>();
 		mapPlaceholderKeyToVal.put(variable, replacement);
 
 		try {
