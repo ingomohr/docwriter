@@ -1,5 +1,5 @@
 ![Build](https://github.com/ingomohr/docwriter/actions/workflows/mvn-build-main.yml/badge.svg?branch=master)
-[![License](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ### What is this?
 DocWriter is a Java API to simplify writing docx documents...
 
