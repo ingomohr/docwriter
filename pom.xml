@@ -7,8 +7,8 @@
 	<description>writes docx documents</description>
 
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
 		<junit-jupiter.version>5.9.0</junit-jupiter.version>
 		<mockito.version>4.6.1</mockito.version>
 	</properties>
@@ -78,10 +78,11 @@
 
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.docx4j/docx4j -->
 		<dependency>
 			<groupId>org.docx4j</groupId>
 			<artifactId>docx4j-JAXB-ReferenceImpl</artifactId>
-			<version>11.3.2</version>
+			<version>8.3.8</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
@@ -147,13 +148,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<name>ingomohr Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/ingomohr/docwriter</url>
-		</repository>
-	</distributionManagement>
 
 </project>

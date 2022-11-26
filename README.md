@@ -12,11 +12,11 @@ DocWriter is a Java API to simplify writing docx documents...
 See [Examples](https://github.com/ingomohr/docwriter/wiki/Examples)
 
 ### Requirements
-- Java 17
+- Java 8
 
 
 ### How to Build
-You can build this with Maven.
+:bulb: This will also build the JAR with all the dependencies included.
 
 Call
 ```

@@ -11,45 +11,46 @@ import org.ingomohr.docwriter.docx.SimpleDocxProcessor;
  */
 public class DocWriterExampleForSimpleDocxProcessorHorizontalRule {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        Path out = Paths.get(System.getProperty("user.home") + "/Desktop/doc-example-with-horizontal-rule.docx");
+		Path out = Paths.get(System.getProperty("user.home") + "/Desktop/doc-example-with-horizontal-rule.docx");
 
-        try {
-            new MyDocWriter().write(out);
-            System.out.println("Wrote docx to " + out);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		try {
+			new MyDocWriter().write(out);
+			System.out.println("Wrote docx to " + out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    private static class MyDocWriter extends SimpleDocxProcessor {
+	private static class MyDocWriter extends SimpleDocxProcessor {
 
-        public void write(Path pTargetPath) throws IOException {
+		public void write(Path pTargetPath) throws IOException {
 
-            createDocument();
-            addMarkdown("""
-                    # 1.  First
-                    &nbsp;
-                    content
-                    &nbsp;
+			createDocument();
 
-                    # 2.  Second
-                    &nbsp;
-                    content
-                    &nbsp;
+			// @formatter:off
+            String md = "# 1.  First"
+            		+ "\n content"
+            		+ "\n\n"
+            		+ "\n # 2. Second"
+            		+ "\n content"
+            		+ "\n\n"
+            		+ "\n***"
+            		+ "\n"
+            		+ "**Date :**"
+            		+ "\n\n"
+            		+ "04.11.2022"
+            		+ "\n"
+            		+ "***";
+            // @formatter:on
+			addMarkdown(md);
 
-                    ***
-
-                    **Date :** &nbsp;&nbsp;04.11.2022
-
-                    ***""");
-
-            addHeadlineH2("More Markdown");
-            addMarkdown("Another horizontal rule:");
-            addMarkdown("***");
-            saveDocumentToPath(pTargetPath);
-        }
-    }
+			addHeadlineH2("More Markdown");
+			addMarkdown("Another horizontal rule:");
+			addMarkdown("***");
+			saveDocumentToPath(pTargetPath);
+		}
+	}
 
 }
