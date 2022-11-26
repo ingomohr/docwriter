@@ -23,6 +23,7 @@ Call
 mvn package
 ```
 
-
-
-
+### Third Party Components Used
+This component uses the following further components
+* [docx4j 8.3.8](https://github.com/plutext/docx4j), Apache 2.0
+* [flexmark 0.50.50](https://github.com/vsch/flexmark-java) BSD 2-Clause "Simplified" License
