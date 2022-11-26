@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ingomohr</groupId>
 	<artifactId>docwriter</artifactId>
-	<version>5.0.0</version>
+	<version>6.0.0</version>
 	<name>docwriter</name>
 	<description>writes docx documents</description>
 
